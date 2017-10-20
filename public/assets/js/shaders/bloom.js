@@ -3,7 +3,7 @@ var bloomSrc = [
     "varying vec2 vTextureCoord;",
     "varying vec4 vColor;",
     'uniform sampler2D uSampler;',
-
+    'uniform float intensity;',
     'void main() {',
     'vec4 sum = vec4(0);',
     'vec2 texcoord = vTextureCoord;',
@@ -19,6 +19,6 @@ var bloomSrc = [
     'sum += texture2D(uSampler, texcoord + vec2(xx, yy) * 0.002) * factor;',
     '}',
     '}',
-    'gl_FragColor = sum * 0.010 + texture2D(uSampler, texcoord);',
+    'gl_FragColor = sum * intensity + texture2D(uSampler, texcoord);',
     '}'
 ];

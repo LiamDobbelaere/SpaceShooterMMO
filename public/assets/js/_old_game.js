@@ -41,7 +41,12 @@ function create() {
 
     game.add.tileSprite(0, 0, 2000, 2000, "space");
 
-    var scanlineFilter = new Phaser.Filter(game, null, fragmentSrc);
+    var scanlineFilter = new Phaser.Filter(game, {
+        intensity: {
+            type: "1f",
+            value: 1.0
+        }
+    }, fragmentSrc);
     game.world.filters = [scanlineFilter];
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
