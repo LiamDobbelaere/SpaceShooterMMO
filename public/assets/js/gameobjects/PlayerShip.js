@@ -28,7 +28,7 @@ PlayerShip = function(game) {
         leftKey: game.input.keyboard.addKey(Phaser.Keyboard.Q),
         rightKey: game.input.keyboard.addKey(Phaser.Keyboard.D)
     };
-    this.speed = 10;
+    this.speed = 500;
     this.turnSpeed = 0.4;
     this.moveDirection = 0;
 };
@@ -62,9 +62,14 @@ PlayerShip.prototype.updateMovement = function() {
         math.degToRad(this.body.rotation), math.degToRad(this.moveDirection), this.turnSpeed));
 
     if (moving) {
-        this.x += Math.cos(math.degToRad(this.body.rotation)) * this.speed;
-        this.y += Math.sin(math.degToRad(this.body.rotation)) * this.speed;
+        this.body.velocity.x = Math.cos(math.degToRad(this.body.rotation)) * this.speed;
+        this.body.velocity.y = Math.sin(math.degToRad(this.body.rotation)) * this.speed;
+    } else {
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+
     }
+
 };
 
 PlayerShip.prototype.updateCamera = function() {
