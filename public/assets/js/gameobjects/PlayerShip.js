@@ -6,14 +6,18 @@ PlayerShip = function(game) {
 
     this.anchor = new Phaser.Point(0.5, 0.5);
 
-    this.camShake = 0;
+    this.shootSound = game.add.audio("blaster", 0.2, false);
 
-    this.body.collideWorldBounds = true;
+    this.camShake = 0;
+    this.regionOverlapping = null;
+    this.regionOverlapReset = 0;
+
+    //this.body.collideWorldBounds = true;
 
     this.weapon = game.add.weapon(30, "bullet");
     this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     this.weapon.bulletSpeed = 2000;
-    this.weapon.fireRate = 100;
+    this.weapon.fireRate = 125;
     this.weapon.bulletAngleVariance = 8;
     this.weapon.fireRateVariance = 100;
     this.weapon.onFire.add(this.onBulletFired, this);
@@ -21,12 +25,25 @@ PlayerShip = function(game) {
 
     game.add.existing(this);
 
+    var style = { font: "24px Arial", fill: "#ffffff", align: "center" };
+    var text = game.add.text(this.width / 2, this.height / 2, "u gay", style);
+    text.anchor.set(0.5);
+    //text.setShadow(5, 5, 'rgba(0,0,0,0.7)', 5);
+    text.stroke = '#000000';
+    text.strokeThickness = 4;
+    text.alpha = 1;
+
+    this.hintText = text;
+
+    game.add.existing(this.hintText);
+
     this.game = game;
-    this.input = {
+    this.inputKeys = {
         upKey: game.input.keyboard.addKey(Phaser.Keyboard.Z),
         downKey: game.input.keyboard.addKey(Phaser.Keyboard.S),
         leftKey: game.input.keyboard.addKey(Phaser.Keyboard.Q),
-        rightKey: game.input.keyboard.addKey(Phaser.Keyboard.D)
+        rightKey: game.input.keyboard.addKey(Phaser.Keyboard.D),
+        useKey: game.input.keyboard.addKey(Phaser.Keyboard.E)
     };
     this.speed = 500;
     this.turnSpeed = 0.4;
@@ -39,15 +56,32 @@ PlayerShip.prototype.update = function() {
     this.updateMovement();
     this.updateCamera();
     this.updateWeapon();
+
+    game.world.wrap(this, 0, true);
+
+    if (this.regionOverlapReset > 0) this.regionOverlapReset--;
+    else this.regionOverlapping = null;
+
+    this.hintText.alpha = 0;
+
+    if (this.regionOverlapping !== null) {
+        this.hintText.x = this.x;
+        this.hintText.y = this.y - 64;
+        this.hintText.alpha = 1;
+        this.hintText.text = "[E] Enter " + this.regionOverlapping.faction + " region";
+        if (this.inputKeys.useKey.isDown) {
+            this.game.state.start("boot");
+        }
+    }
 };
 
 PlayerShip.prototype.updateMovement = function() {
     var math = this.game.math;
 
-    var moveUp = this.input.upKey.isDown;
-    var moveDown = this.input.downKey.isDown;
-    var moveLeft = this.input.leftKey.isDown;
-    var moveRight = this.input.rightKey.isDown;
+    var moveUp = this.inputKeys.upKey.isDown;
+    var moveDown = this.inputKeys.downKey.isDown;
+    var moveLeft = this.inputKeys.leftKey.isDown;
+    var moveRight = this.inputKeys.rightKey.isDown;
 
     var moving = moveUp + moveDown + moveLeft + moveRight;
 
@@ -94,4 +128,13 @@ PlayerShip.prototype.updateWeapon = function() {
 
 PlayerShip.prototype.onBulletFired = function() {
     this.camShake = 4;
+    this.shootSound.play();
+};
+
+PlayerShip.prototype.onOverlapRegion = function(region) {
+    this.regionOverlapReset = 5;
+    if (this.regionOverlapping !== region) {
+        this.regionOverlapping = region;
+        console.log(region);
+    }
 };

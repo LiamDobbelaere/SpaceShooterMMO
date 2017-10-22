@@ -1,10 +1,13 @@
-Region = function(game, x, y, width, height) {
-    Phaser.TileSprite.call(this, game, x, y, width, height, "region");
+Region = function(game, region) {
+    Phaser.TileSprite.call(this, game, region.x * 32, region.y * 32, 256, 256, "region");
 
     game.physics.arcade.enable(this);
     //this.body.immovable = true;
 
-    var factionColor = 0xffff00;
+    var factionColor = 0x000000;
+
+    if (region.faction === "TRRA") factionColor = 0x0033ff;
+    else if (region.faction === "BOLT") factionColor = 0xff0000;
 
     this.background = game.add.tileSprite(0, 0, this.width, this.height, "white");
     this.background.tint = factionColor;
