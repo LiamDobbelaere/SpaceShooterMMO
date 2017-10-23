@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up or log in</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/screen.css"/>
+</head>
+<body>
+<div id="container">
+    <section id="login" class="panel">
+        <article>
+            <h1>Log in</h1>
+            <form method="post" action="/login">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username"/>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password"/>
+                <input type="submit" value="Log in"/>
+            </form>
+        </article>
+    </section>
+    <section id="signup-ask" class="panel signup">
+        <h1>Don't have an account yet?</h1>
+        <a href="#" class="btn">Sign up for free</a>
+    </section>
+    <section id="signup" class="panel" style="display: none">
+        <article>
+            <h1>Sign up</h1>
+            <form method="post" action="/signup">
+                <label for="su-username">Username</label>
+                <input type="text" name="username" id="su-username"/>
+                <label for="su-password">Password</label>
+                <input type="password" name="password" id="su-password"/>
+                <label for="su-password-confirm">Password</label>
+                <input type="password" name="password-confirm" id="su-password-confirm"/>
+                <input type="submit" value="Sign up"/>
+            </form>
+        </article>
+    </section>
+</div>
+
+<script type="text/javascript" src="assets/js/jquery.3.2.1.min.js"></script>
+<script type="text/javascript" src="assets/js/signup.js"></script>
+</body>
+</html>

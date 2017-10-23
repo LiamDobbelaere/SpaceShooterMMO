@@ -10,8 +10,8 @@ const pool = mysql.createPool({
 });
 
 const queries = {
-    "ADD_USER": "INSERT INTO responder (login, password) VALUES (?, ?)",
-    "GET_USER": "SELECT login, password FROM responder WHERE login = ?",
+    "ADD_USER": "INSERT INTO user (login, password) VALUES (?, ?)",
+    "GET_USER": "SELECT login, password FROM user WHERE login = ?",
     "GET_REGIONS": "SELECT * FROM region"
 };
 

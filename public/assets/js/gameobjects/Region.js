@@ -1,5 +1,5 @@
 Region = function(game, region) {
-    Phaser.TileSprite.call(this, game, region.x * 32, region.y * 32, 256, 256, "region");
+    Phaser.TileSprite.call(this, game, region.x * 32, region.y * 32, region.width * 32, region.height * 32, "region");
 
     game.physics.arcade.enable(this);
     //this.body.immovable = true;
@@ -8,6 +8,7 @@ Region = function(game, region) {
 
     if (region.faction === "TRRA") factionColor = 0x0033ff;
     else if (region.faction === "BOLT") factionColor = 0xff0000;
+    else if (region.faction === "TEST") factionColor = 0x00ff00;
 
     this.background = game.add.tileSprite(0, 0, this.width, this.height, "white");
     this.background.tint = factionColor;
@@ -25,7 +26,7 @@ Region = function(game, region) {
 
     var border = game.add.graphics(0, 0);
     border.lineStyle(2, factionColor, 0.5);
-    border.drawRect(0, 0, this.width, this.height);
+    border.drawRect(2, 2, this.width - 2, this.height - 2);
 
 
     this.addChild(border);

@@ -31,7 +31,7 @@ var openworldState = {
         //r1= new Region(game, 500, 800, 1024, 1024);
 
 
-        this.player = new PlayerShip(game);
+        this.player = new PlayerShip(game, 200, 200, false);
         new Crosshair(game);
 
     },

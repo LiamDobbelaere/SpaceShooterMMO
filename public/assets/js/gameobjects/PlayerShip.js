@@ -1,10 +1,12 @@
-PlayerShip = function(game) {
-    Phaser.Sprite.call(this, game, 200, 200, "ship");
+PlayerShip = function(game, x, y, isInRegion) {
+    Phaser.Sprite.call(this, game, x, y, "ship");
 
     //game.camera.follow(this, null, 0.5, 0.5);
     game.physics.arcade.enable(this);
 
     this.anchor = new Phaser.Point(0.5, 0.5);
+
+    this.isInRegion = isInRegion;
 
     this.shootSound = game.add.audio("blaster", 0.2, false);
 
@@ -12,7 +14,7 @@ PlayerShip = function(game) {
     this.regionOverlapping = null;
     this.regionOverlapReset = 0;
 
-    //this.body.collideWorldBounds = true;
+    if (this.isInRegion) this.body.collideWorldBounds = true;
 
     this.weapon = game.add.weapon(30, "bullet");
     this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -57,7 +59,7 @@ PlayerShip.prototype.update = function() {
     this.updateCamera();
     this.updateWeapon();
 
-    game.world.wrap(this, 0, true);
+    if (!this.isInRegion) game.world.wrap(this, 0, true);
 
     if (this.regionOverlapReset > 0) this.regionOverlapReset--;
     else this.regionOverlapping = null;
@@ -70,7 +72,7 @@ PlayerShip.prototype.update = function() {
         this.hintText.alpha = 1;
         this.hintText.text = "[E] Enter " + this.regionOverlapping.faction + " region";
         if (this.inputKeys.useKey.isDown) {
-            this.game.state.start("boot");
+            this.game.state.start("battle", true, false, this.regionOverlapping);
         }
     }
 };
@@ -135,6 +137,9 @@ PlayerShip.prototype.onOverlapRegion = function(region) {
     this.regionOverlapReset = 5;
     if (this.regionOverlapping !== region) {
         this.regionOverlapping = region;
-        console.log(region);
     }
+};
+
+PlayerShip.prototype.gameOver = function() {
+    game.state.start("boot");
 };
