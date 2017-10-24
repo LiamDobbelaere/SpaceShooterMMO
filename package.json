@@ -2,9 +2,8 @@
   "name": "spacemmo-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-	"start": "node index",
+	"start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -18,5 +17,8 @@
     "express-socket.io-session": "^1.3.2",
     "mysql": "^2.15.0",
     "socket.io": "latest"
+  },
+  "engines": {
+    "node": "~6.11.4"
   }
 }
