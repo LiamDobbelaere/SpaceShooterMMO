@@ -19,6 +19,6 @@
     "socket.io": "latest"
   },
   "engines": {
-    "node": "~6.11.4"
+    "node": "~8.0.0"
   }
 }
