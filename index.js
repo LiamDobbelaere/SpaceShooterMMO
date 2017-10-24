@@ -30,7 +30,7 @@ const sessionStore = new MySQLStore({
 });
 const sharedsession = require("express-socket.io-session");
 
-server.listen(80);
+server.listen(process.env.PORT || 80);
 
 let sessionDetails = session({
     key: "spacemmo",
