@@ -1,8 +1,10 @@
 var openworldState = {
     regions: null,
     player: null,
-    init: function(regions) {
-        this.regions = regions;
+    user: null,
+    init: function(userinfo) {
+        this.regions = userinfo.regions;
+        this.user = userinfo.user;
     },
     preload: function () {
 
@@ -31,7 +33,7 @@ var openworldState = {
         //r1= new Region(game, 500, 800, 1024, 1024);
 
 
-        this.player = new PlayerShip(game, 200, 200, false);
+        this.player = new PlayerShip(game, 200, 200, false, this.user);
         new Crosshair(game);
 
     },

@@ -1,5 +1,7 @@
-PlayerShip = function(game, x, y, isInRegion) {
+PlayerShip = function(game, x, y, isInRegion, user) {
     Phaser.Sprite.call(this, game, x, y, "ship");
+
+    console.log(user);
 
     //game.camera.follow(this, null, 0.5, 0.5);
     game.physics.arcade.enable(this);

@@ -8,15 +8,39 @@ const db = require("./data.js")();
 const pubdir = __dirname + "/public";
 const path = require("path");
 const bcrypt = require("bcryptjs");
+const MySQLStore = require("express-mysql-session")(session);
+const sessionStore = new MySQLStore({
+    host: "servers.dobbelaere.solutions",
+    port: "3306",
+    database: "spacemmo",
+    user: "spacemmo",
+    password: "sp4c3mm0",
+    checkExpirationInterval: 900000,
+    expiration: 30 * 24 * 60 * 60 * 1000,
+    createDatabaseTable: true,
+    connectionLimit: 20,
+    schema: {
+        tableName: 'sessions',
+        columnNames: {
+            session_id: 'session_id',
+            expires: 'expires',
+            data: 'data'
+        }
+    }
+});
+const sharedsession = require("express-socket.io-session");
 
 server.listen(80);
 
-app.use(session({
+let sessionDetails = session({
+    key: "spacemmo",
     secret: "lBroKrhQ23S@qItB{0zF5XfpAT3>",
-    resave: false,
+    store: sessionStore,
+    resave: true,
     saveUninitialized: true
-}));
+});
 
+app.use(sessionDetails);
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
@@ -29,12 +53,21 @@ app.get("/", function (req, res, next) {
     } else next();
 });
 
+app.get("/logout", function(req, res, next) {
+    delete req.session["user"];
+
+    res.redirect("/");
+});
+
 app.post("/login", function(req, res, next) {
     db.validateUser({
             login: req.body.username,
             password: req.body.password
-        }).then(function() {
-            req.session.user = req.body.username;
+        }).then(function(user) {
+            let cleanUser = JSON.parse(JSON.stringify(user));
+            delete cleanUser["password"];
+
+            req.session.user = cleanUser;
             res.redirect("/");
     })
 });
@@ -43,7 +76,8 @@ app.post("/signup", function(req, res, next) {
     if (req.body.password === req.body["password-confirm"]) {
         db.addUser({
             login: req.body.username,
-            password: req.body.password
+            password: req.body.password,
+            faction: req.body.faction
         })
     }
 
@@ -52,11 +86,18 @@ app.post("/signup", function(req, res, next) {
 
 app.use(express.static(pubdir));
 
-io.on("connection", (socket) => {
+io.use(sharedsession(sessionDetails, {
+    autoSave:true
+}));
+
+io.on("connect", (socket) => {
     console.log("Hi " + socket.id);
 
     db.getRegions().then((resultSet) => {
-        socket.emit("receive-regions", resultSet);
+        socket.emit("receive-userinfo", {
+            regions: resultSet,
+            user: socket.handshake.session.user
+        });
     });
     //console.log(socket.id);
 

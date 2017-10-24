@@ -10,8 +10,8 @@ const pool = mysql.createPool({
 });
 
 const queries = {
-    "ADD_USER": "INSERT INTO user (login, password) VALUES (?, ?)",
-    "GET_USER": "SELECT login, password FROM user WHERE login = ?",
+    "ADD_USER": "INSERT INTO user (login, password, faction) VALUES (?, ?, ?)",
+    "GET_USER": "SELECT login, password, faction FROM user WHERE login = ?",
     "GET_REGIONS": "SELECT * FROM region"
 };
 
@@ -28,7 +28,7 @@ function addUser(user) {
     return new Promise((resolve, reject) => {
         bcrypt.hash(user.password, 8, function(err, hash) {
             if (err === null) {
-                query(queries.ADD_USER, [user.login, hash])
+                query(queries.ADD_USER, [user.login, hash, user.faction])
                     .then(resultSet => {
                         resolve(true);
                     }).catch(error => reject(error))
@@ -45,7 +45,7 @@ function validateUser(user) {
             .then(resultSet => {
                 if (resultSet.length === 0) reject("User does not exist");
                 else bcrypt.compare(user.password, resultSet[0].password).then(res => {
-                    if (res) resolve(true);
+                    if (res) resolve(resultSet[0]);
                     else reject("Wrong password");
                 });
             })

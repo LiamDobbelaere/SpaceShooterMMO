@@ -10,10 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "body-parser": "latest",
     "express": "latest",
+    "express-mysql-session": "^1.2.2",
     "express-session": "latest",
+    "express-socket.io-session": "^1.3.2",
     "mysql": "^2.15.0",
-    "socket.io": "latest",
-    "body-parser": "latest"
+    "socket.io": "latest"
   }
 }

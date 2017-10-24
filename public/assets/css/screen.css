@@ -1,6 +1,6 @@
 body {
     background-color: #37383f;
-    padding-top: 32px;
+    padding-top: 16px;
     font-family: "Roboto Condensed", sans-serif;
 }
 
@@ -77,4 +77,24 @@ form input[type="submit"]:hover, .btn {
 
 .signup h1 {
     margin-bottom: 0;
+}
+
+a {
+    color: #508997;
+}
+
+#options {
+    text-align: right;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 16px;
+}
+
+form input[type="radio"], form input[type="radio"] + label {
+    display: inline-block;
+}
+
+fieldset {
+    margin-top: 16px;
 }

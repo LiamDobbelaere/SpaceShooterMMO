@@ -33,8 +33,24 @@
                 <input type="text" name="username" id="su-username"/>
                 <label for="su-password">Password</label>
                 <input type="password" name="password" id="su-password"/>
-                <label for="su-password-confirm">Password</label>
+                <label for="su-password-confirm">Confirm password</label>
                 <input type="password" name="password-confirm" id="su-password-confirm"/>
+
+                <fieldset>
+                    <p>
+                        <input type="radio" name="faction" id="faction-trra" value="TRRA"/>
+                        <label for="faction-trra">TRRA</label>
+                    </p>
+                    <p>
+                        <input type="radio" name="faction" id="faction-bolt" value="BOLT"/>
+                        <label for="faction-bolt">BOLT</label>
+                    </p>
+                    <p>
+                        <input type="radio" name="faction" id="faction-other" disabled/>
+                        <label for="faction-other">????</label>
+                    </p>
+                </fieldset>
+
                 <input type="submit" value="Sign up"/>
             </form>
         </article>

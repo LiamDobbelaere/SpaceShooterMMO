@@ -29,12 +29,12 @@ var bootState = {
         socket.on("connect", function() {
             text.text = "Downloading regions..."
         });
-        socket.on("receive-regions", this.startGame)
+        socket.on("receive-userinfo", this.startGame)
     },
     update: function() {
 
     },
-    startGame: function(regions) {
-        game.state.start("openworld", true, false, regions);
+    startGame: function(userinfo) {
+        game.state.start("openworld", true, false, userinfo);
     }
 };
