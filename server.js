@@ -92,6 +92,7 @@ io.use(sharedsession(sessionDetails, {
 
 io.on("connect", (socket) => {
     console.log("Hi " + socket.id);
+    console.log("MYSQL CONNECTION STRING" + process.env.MYSQLCONNSTR_localdb);
 
     db.getRegions().then((resultSet) => {
         socket.emit("receive-userinfo", {

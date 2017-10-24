@@ -20,11 +20,11 @@ BoltEnemy = function(game, x, y, player, enemyGroup) {
     this.speed = 200;
 
 
-    game.time.events.repeat(Phaser.Timer.SECOND * 1, 100, function() {
+    /*game.time.events.repeat(Phaser.Timer.SECOND * 1, 100, function() {
         //for (var i = 0; i < 3; i++) {
-        new BoltEnemy(this.x, this.y, this.player, enemyGroup);
+        new BoltEnemy(game, this.x, this.y, this.player, enemyGroup);
         //}
-    }, this);
+    }, this);*/
 
     var signX = Math.random() > 0.5 ? -1 : 1;
     var signY = Math.random() > 0.5 ? -1 : 1;
