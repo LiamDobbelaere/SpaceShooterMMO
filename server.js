@@ -4,17 +4,18 @@ const app = express();
 const session = require("express-session");
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
-const db = require("./data.js")();
+const connectionInfo = require("./connectionstring")(process.env.MYSQLCONNSTR_localdb || "Database=spacemmo;Data Source=servers.dobbelaere.solutions:3306;User Id=spacemmo;Password=sp4c3mm0");
+const db = require("./data.js")(connectionInfo);
 const pubdir = __dirname + "/public";
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const MySQLStore = require("express-mysql-session")(session);
 const sessionStore = new MySQLStore({
-    host: "servers.dobbelaere.solutions",
-    port: "3306",
-    database: "spacemmo",
-    user: "spacemmo",
-    password: "sp4c3mm0",
+    host: connectionInfo.ip,
+    port: connectionInfo.port,
+    database: connectionInfo.database,
+    user: connectionInfo.userid,
+    password: connectionInfo.password,
     checkExpirationInterval: 900000,
     expiration: 30 * 24 * 60 * 60 * 1000,
     createDatabaseTable: true,
@@ -30,6 +31,7 @@ const sessionStore = new MySQLStore({
 });
 const sharedsession = require("express-socket.io-session");
 
+console.log(connectionInfo);
 server.listen(process.env.PORT || 80);
 
 let sessionDetails = session({
@@ -53,26 +55,26 @@ app.get("/", function (req, res, next) {
     } else next();
 });
 
-app.get("/logout", function(req, res, next) {
+app.get("/logout", function (req, res, next) {
     delete req.session["user"];
 
     res.redirect("/");
 });
 
-app.post("/login", function(req, res, next) {
+app.post("/login", function (req, res, next) {
     db.validateUser({
-            login: req.body.username,
-            password: req.body.password
-        }).then(function(user) {
-            let cleanUser = JSON.parse(JSON.stringify(user));
-            delete cleanUser["password"];
+        login: req.body.username,
+        password: req.body.password
+    }).then(function (user) {
+        let cleanUser = JSON.parse(JSON.stringify(user));
+        delete cleanUser["password"];
 
-            req.session.user = cleanUser;
-            res.redirect("/");
+        req.session.user = cleanUser;
+        res.redirect("/");
     })
 });
 
-app.post("/signup", function(req, res, next) {
+app.post("/signup", function (req, res, next) {
     if (req.body.password === req.body["password-confirm"]) {
         db.addUser({
             login: req.body.username,
@@ -87,12 +89,11 @@ app.post("/signup", function(req, res, next) {
 app.use(express.static(pubdir));
 
 io.use(sharedsession(sessionDetails, {
-    autoSave:true
+    autoSave: true
 }));
 
 io.on("connect", (socket) => {
     console.log("Hi " + socket.id);
-    console.log("MYSQL CONNECTION STRING" + process.env.MYSQLCONNSTR_localdb);
 
     db.getRegions().then((resultSet) => {
         socket.emit("receive-userinfo", {

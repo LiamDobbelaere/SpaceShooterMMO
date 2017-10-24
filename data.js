@@ -1,13 +1,6 @@
 const bcrypt = require('bcryptjs');
 const mysql = require("mysql");
-const pool = mysql.createPool({
-    connectionLimit: 20,
-    host: "servers.dobbelaere.solutions",
-    port: "3306",
-    database: "spacemmo",
-    user: "spacemmo",
-    password: "sp4c3mm0"
-});
+let pool;
 
 const queries = {
     "ADD_USER": "INSERT INTO user (login, password, faction) VALUES (?, ?, ?)",
@@ -63,7 +56,16 @@ function getRegions() {
     });
 }
 
-function init() {
+function init(connectionInfo) {
+    pool = mysql.createPool({
+        connectionLimit: 20,
+        host: connectionInfo.ip,
+        port: connectionInfo.port,
+        database: connectionInfo.database,
+        user: connectionInfo.userid,
+        password: connectionInfo.password
+    });
+
     return {
         addUser: addUser,
         validateUser: validateUser,
