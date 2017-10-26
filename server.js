@@ -4,7 +4,7 @@ const app = express();
 const session = require("express-session");
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
-const connectionInfo = require("./connectionstring")(process.env.MYSQLCONNSTR_localdb || "Database=spacemmo;Data Source=servers.dobbelaere.solutions:3306;User Id=spacemmo;Password=sp4c3mm0");
+const connectionInfo = require("./connectionstring")(process.env.MYSQLCONNSTR_localdb || "Database=spacemmo;Data Source=localhost:3306;User Id=root;Password=root");
 const db = require("./data.js")(connectionInfo);
 const pubdir = __dirname + "/public";
 const path = require("path");

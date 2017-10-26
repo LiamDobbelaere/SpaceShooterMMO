@@ -20,7 +20,6 @@ Region = function(game, region) {
     tweenA.repeat(-1);
     tweenA.yoyo(true);
 
-
     this.addChild(this.background);
     game.add.existing(this);
 

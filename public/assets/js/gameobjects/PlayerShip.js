@@ -1,16 +1,18 @@
 PlayerShip = function(game, x, y, isInRegion, user) {
     Phaser.Sprite.call(this, game, x, y, "ship");
 
-    console.log(user);
-
     //game.camera.follow(this, null, 0.5, 0.5);
     game.physics.arcade.enable(this);
+
+    this.user = user;
 
     this.anchor = new Phaser.Point(0.5, 0.5);
 
     this.isInRegion = isInRegion;
 
     this.shootSound = game.add.audio("blaster", 0.2, false);
+
+    //this.regionSelection = new Region(game, null);
 
     this.camShake = 0;
     this.regionOverlapping = null;
@@ -68,7 +70,7 @@ PlayerShip.prototype.update = function() {
 
     this.hintText.alpha = 0;
 
-    if (this.regionOverlapping !== null) {
+    if (this.regionOverlapping !== null) { //&& this.regionOverlapping.faction !== this.user.faction) {
         this.hintText.x = this.x;
         this.hintText.y = this.y - 64;
         this.hintText.alpha = 1;
