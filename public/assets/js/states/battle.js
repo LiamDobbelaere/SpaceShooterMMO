@@ -33,6 +33,8 @@ var battleState = {
 
         new BoltEnemy(game, 0, 0, this.player, this.enemyGroup);
 
+        new BattleGamemode(game);
+
         socket.emit("update-region-faction", this.region);
 
         //var music = game.add.audio("reclaim", 1, true);
@@ -45,7 +47,7 @@ var battleState = {
         }, null, this);
 
         game.physics.arcade.overlap(this.player, this.enemyGroup, function(a, b) {
-            //a.gameOver();
+            a.gameOver();
         }, null, this);
     }
 };
