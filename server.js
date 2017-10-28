@@ -86,6 +86,12 @@ app.post("/signup", function (req, res, next) {
     res.redirect("/");
 });
 
+app.get("/api/regions", function(req, res, next) {
+    db.getRegions().then((resultSet) => {
+        res.send(resultSet);
+    });
+});
+
 app.use(express.static(pubdir));
 
 io.use(sharedsession(sessionDetails, {
@@ -102,6 +108,14 @@ io.on("connect", (socket) => {
         });
     });
     //console.log(socket.id);
+
+    socket.on("update-region-faction", (region) => {
+        region.faction = socket.handshake.session.user.faction;
+
+        db.updateRegionFaction(region.x, region.y, socket.handshake.session.user.faction).then((resultSet) => {
+            io.emit("update-region", region);
+        });
+    });
 
     socket.on("disconnect", () => {
         console.log("Bye " + socket.id);

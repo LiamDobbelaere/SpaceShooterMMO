@@ -1,10 +1,12 @@
 var bootState = {
     preload: function() {
-        game.load.image("ship", "assets/media/ship.png");
-        game.load.image("space", "assets/media/space.png");
-        game.load.image("space2", "assets/media/space2.png");
+        game.load.image("ship_trra", "assets/media/ship_trra.png");
+        game.load.image("ship_bolt", "assets/media/ship_bolt.png");
+        game.load.image("space_trra", "assets/media/space_trra.png");
+        game.load.image("space_bolt", "assets/media/space_bolt.png");
         game.load.image("crosshair", "assets/media/crosshair.png");
         game.load.image("bullet", "assets/media/bullet.png");
+        game.load.image("money", "assets/media/money.png");
         game.load.image("region", "assets/media/region.png");
         game.load.image("white", "assets/media/white.png");
         game.load.image("bolt", "assets/media/bolt.png");
@@ -36,5 +38,9 @@ var bootState = {
     },
     startGame: function(userinfo) {
         game.state.start("openworld", true, false, userinfo);
+    },
+    shutdown: function() {
+        socket.off("connect");
+        socket.off("receive-userinfo");
     }
 };

@@ -1,5 +1,5 @@
 PlayerShip = function(game, x, y, isInRegion, user) {
-    Phaser.Sprite.call(this, game, x, y, "ship");
+    Phaser.Sprite.call(this, game, x, y, "ship_" + user.faction.toLowerCase());
 
     //game.camera.follow(this, null, 0.5, 0.5);
     game.physics.arcade.enable(this);
@@ -18,7 +18,7 @@ PlayerShip = function(game, x, y, isInRegion, user) {
     this.regionOverlapping = null;
     this.regionOverlapReset = 0;
 
-    if (this.isInRegion) this.body.collideWorldBounds = true;
+    /*if (this.isInRegion) */this.body.collideWorldBounds = true;
 
     this.weapon = game.add.weapon(30, "bullet");
     this.weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -76,7 +76,10 @@ PlayerShip.prototype.update = function() {
         this.hintText.alpha = 1;
         this.hintText.text = "[E] Enter " + this.regionOverlapping.faction + " region";
         if (this.inputKeys.useKey.isDown) {
-            this.game.state.start("battle", true, false, this.regionOverlapping);
+            this.game.state.start("battle", true, false, {
+                region: this.regionOverlapping,
+                user: this.user
+            });
         }
     }
 };

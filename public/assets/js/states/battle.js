@@ -1,8 +1,10 @@
 var battleState = {
     region: null,
     enemyGroup: null,
-    init: function(region) {
-        this.region = region;
+    user: null,
+    init: function(data) {
+        this.region = data.region;
+        this.user = data.user;
     },
     preload: function () {
 
@@ -16,9 +18,8 @@ var battleState = {
         }, bloomSrc);
         game.world.filters = [bloomFilter];
 
-        game.world.setBounds(0, 0, this.region.width * 100, this.region.height * 100);
-        if (this.region.faction === "TRRA") game.add.tileSprite(0, 0, this.region.width * 100, this.region.height * 100, "space");
-        else if (this.region.faction === "BOLT") game.add.tileSprite(0, 0, this.region.width * 100, this.region.height * 100, "space2");
+        game.world.setBounds(0, 0, 1024, 1024);
+        game.add.tileSprite(0, 0, 1024, 1024, "space_" + this.region.faction.toLowerCase());
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.camera.flash(0xffffff, 250, true, 1);
@@ -27,10 +28,13 @@ var battleState = {
         this.enemyGroup = game.add.group();
         this.enemyGroup.enableBody = true;
         this.enemyGroup.physicsBodyType = Phaser.Physics.ARCADE;
-        this.player = new PlayerShip(game, game.world.centerX, game.world.centerY, true);
+        this.player = new PlayerShip(game, game.world.centerX, game.world.centerY, true, this.user);
         new Crosshair(game);
 
         new BoltEnemy(game, 0, 0, this.player, this.enemyGroup);
+
+        socket.emit("update-region-faction", this.region);
+
         //var music = game.add.audio("reclaim", 1, true);
         //music.play();
     },
