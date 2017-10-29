@@ -74,7 +74,6 @@ var openworldState = {
 
         var self = this;
         socket.on("update-region", function(region) {
-            console.log(region);
             self.updateRegion(region);
         });
     },

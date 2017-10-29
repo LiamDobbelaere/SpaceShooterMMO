@@ -8,7 +8,7 @@ BoltEnemy = function(game, x, y, player, enemyGroup) {
     //game.add.existing(this);
 
     this.body.collideWorldBounds = true;
-    this.body.bounce.set(1.1);
+    this.body.bounce.set(1);
 
     this.player = player;
 
@@ -16,7 +16,7 @@ BoltEnemy = function(game, x, y, player, enemyGroup) {
 
     this.anchor = new Phaser.Point(0.5, 0.5);
     this.game = game;
-    this.health = 5;
+    this.health = 0;
     this.speed = 200;
 
 
@@ -29,11 +29,11 @@ BoltEnemy = function(game, x, y, player, enemyGroup) {
     var signX = Math.random() > 0.5 ? -1 : 1;
     var signY = Math.random() > 0.5 ? -1 : 1;
 
-    console.log(signX);
-    console.log(signY);
-
     var xFactor = Math.random() + 0.5;
     var yFactor = Math.random() + 0.5;
+
+    this.width = 8;
+    this.height = this.width;
 
     this.body.velocity.setTo(signX * this.speed * xFactor, signY * this.speed * yFactor);
 };

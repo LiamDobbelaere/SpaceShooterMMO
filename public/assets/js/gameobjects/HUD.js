@@ -3,8 +3,6 @@ HUD = function(game, user) {
 
     game.add.existing(this);
 
-    console.log(user);
-
     this.anchor = new Phaser.Point(0.5, 0.5);
 
     var style = { font: "24px Arial", fill: "#ffffff", align: "center" };

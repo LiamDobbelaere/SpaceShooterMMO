@@ -27,7 +27,7 @@ Region = function(game, region, regionObjects) {
     this.timer = 0;
     this.region = region;
     this.regionObjects = regionObjects;
-    this.difficulty = 0;
+    this.region.difficulty = 0;
 
     this.refresh();
 };
@@ -58,7 +58,7 @@ Region.prototype.update = function() {
         s = (yIsLessThanMax) ? this.regionObjects[this.region.y + 1][this.region.x].region.faction === this.region.faction : 0;
         sw = (xIsGreaterThanZero && yIsLessThanMax) ? this.regionObjects[this.region.y + 1][this.region.x - 1].region.faction === this.region.faction : 0;
 
-        this.difficulty = [nw, n, ne, e, se, s, sw, w].reduce(function (a, b) {
+        this.region.difficulty = [nw, n, ne, e, se, s, sw, w].reduce(function (a, b) {
             return a + b;
         }, 0);
     }

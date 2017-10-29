@@ -1,4 +1,4 @@
-BattleGamemode = function(game) {
+BattleGamemode = function(game, region, player, enemyGroup) {
     Phaser.Sprite.call(this, game, 0, 0, null);
 
     game.add.existing(this);
@@ -20,10 +20,18 @@ BattleGamemode = function(game) {
     this.timerText = timerText;
     this.game = game;
 
+    this.region = region;
+    this.player = player;
+    this.enemyGroup = enemyGroup;
+
     this.minutes = 5;
     this.seconds = 0;
 
     this.timerSound = game.add.audio("time", 0.8, false);
+
+    this.enemyTimer = game.time.create();
+    this.enemyTimer.loop(1000 - ((this.region.difficulty + 1) * 100), this.spawnEnemy, this);
+    this.enemyTimer.start();
 };
 
 BattleGamemode.prototype = Object.create(Phaser.Sprite.prototype);
@@ -52,4 +60,7 @@ BattleGamemode.prototype.timerTick = function () {
     }
 
     if (this.seconds <= 0 && this.minutes <= 0) game.state.start("boot");
+};
+BattleGamemode.prototype.spawnEnemy = function () {
+    new BoltEnemy(this.game, 0, 0, this.player, this.enemyGroup);
 };

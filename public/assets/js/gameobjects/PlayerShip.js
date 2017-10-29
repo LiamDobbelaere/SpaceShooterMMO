@@ -77,11 +77,11 @@ PlayerShip.prototype.update = function() {
         this.hintText.alpha = 1;
 
         if (this.regionOverlapping.region.faction !== this.user.faction) {
-            this.hintText.text = "[E] Enter " + this.regionOverlapping.region.faction + " region\n Level " + this.regionOverlapping.difficulty.toString();
+            this.hintText.text = "[E] Enter " + this.regionOverlapping.region.faction + " region\n Level " + this.regionOverlapping.region.difficulty.toString();
 
             this.hintText.style.fill = "#00ff00";
-            if (this.regionOverlapping.difficulty >= 3) this.hintText.style.fill = "#ffff00";
-            if (this.regionOverlapping.difficulty >= 6) this.hintText.style.fill = "#ff4400";
+            if (this.regionOverlapping.region.difficulty >= 3) this.hintText.style.fill = "#ffff00";
+            if (this.regionOverlapping.region.difficulty >= 6) this.hintText.style.fill = "#ff4400";
 
 
             if (this.inputKeys.useKey.isDown) {
@@ -97,7 +97,7 @@ PlayerShip.prototype.update = function() {
             }
         } else {
             this.hintText.style.fill = "#ffffff";
-            this.hintText.text = this.regionOverlapping.region.faction + "'s region\nLevel " + this.regionOverlapping.difficulty.toString();
+            this.hintText.text = this.regionOverlapping.region.faction + "'s region\nLevel " + this.regionOverlapping.region.difficulty.toString();
         }
     }
 };
@@ -119,8 +119,12 @@ PlayerShip.prototype.updateMovement = function() {
 
     this.moveDirection = math.wrapAngle(this.moveDirection);
 
-    this.body.rotation = this.game.math.radToDeg(math.rotateToAngle(
-        math.degToRad(this.body.rotation), math.degToRad(this.moveDirection), this.turnSpeed));
+    if (this.isInRegion) {
+        this.body.rotation = this.moveDirection;
+    } else {
+        this.body.rotation = this.game.math.radToDeg(math.rotateToAngle(
+            math.degToRad(this.body.rotation), math.degToRad(this.moveDirection), this.turnSpeed));
+    }
 
     if (moving) {
         this.body.velocity.x = Math.cos(math.degToRad(this.body.rotation)) * this.speed;

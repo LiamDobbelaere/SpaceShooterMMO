@@ -36,10 +36,7 @@ var battleState = {
         this.player = new PlayerShip(game, game.world.centerX, game.world.height, true, this.user);
 
         new Crosshair(game);
-
-        new BoltEnemy(game, 0, 0, this.player, this.enemyGroup);
-
-        new BattleGamemode(game);
+        new BattleGamemode(game, this.region, this.player, this.enemyGroup);
 
         socket.emit("update-region-faction", this.region);
 
