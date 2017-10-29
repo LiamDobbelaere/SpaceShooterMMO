@@ -20,10 +20,10 @@ BattleGamemode = function(game) {
     this.timerText = timerText;
     this.game = game;
 
-    this.minutes = 0;
-    this.seconds = 8;
+    this.minutes = 5;
+    this.seconds = 0;
 
-    this.timerSound = game.add.audio("time", 0.2, false);
+    this.timerSound = game.add.audio("time", 0.8, false);
 };
 
 BattleGamemode.prototype = Object.create(Phaser.Sprite.prototype);
@@ -36,7 +36,7 @@ BattleGamemode.prototype.update = function() {
     this.timerText.y = this.y + 16;
 
     this.timerText.text = this.minutes.toString() + ":" + (this.seconds < 10 ? "0" : "") + this.seconds.toString();
-    this.timerText.style.fill = "#ff0000";
+
 };
 BattleGamemode.prototype.timerTick = function () {
     if (--this.seconds < 0) {
@@ -44,5 +44,12 @@ BattleGamemode.prototype.timerTick = function () {
         this.minutes--;
     }
 
-    if (this.seconds <= 5 && this.minutes === 0) this.timerSound.play();
+    if (this.seconds <= 10 && this.minutes === 0) {
+        this.timerText.style.fill = "#ff0000";
+        this.timerSound.play();
+    } else {
+        this.timerText.style.fill = "#ffffff";
+    }
+
+    if (this.seconds <= 0 && this.minutes <= 0) game.state.start("boot");
 };

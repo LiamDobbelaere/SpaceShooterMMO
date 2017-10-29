@@ -101,10 +101,14 @@ io.use(sharedsession(sessionDetails, {
 io.on("connect", (socket) => {
     console.log("Hi " + socket.id);
 
-    db.getRegions().then((resultSet) => {
-        socket.emit("receive-userinfo", {
-            regions: resultSet,
-            user: socket.handshake.session.user
+    db.getRegions().then((resultSetRegions) => {
+        db.getWorldPercent().then((resultSetWorldPercent) => {
+            socket.emit("receive-userinfo", {
+                regions: resultSetRegions,
+                user: socket.handshake.session.user,
+                worldpercent: resultSetWorldPercent
+            });
+
         });
     });
     //console.log(socket.id);
@@ -113,7 +117,12 @@ io.on("connect", (socket) => {
         region.faction = socket.handshake.session.user.faction;
 
         db.updateRegionFaction(region.x, region.y, socket.handshake.session.user.faction).then((resultSet) => {
-            io.emit("update-region", region);
+            db.getWorldPercent().then((worldpercent) => {
+                io.emit("update-region", {
+                    region: region,
+                    worldpercent: worldpercent
+                });
+            });
         });
     });
 

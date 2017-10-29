@@ -1,4 +1,4 @@
-Region = function(game, region) {
+Region = function(game, region, regionObjects) {
     Phaser.TileSprite.call(this, game, region.x * Region.size, region.y * Region.size, Region.size, Region.size, "region");
 
     game.physics.arcade.enable(this);
@@ -26,6 +26,8 @@ Region = function(game, region) {
     this.background.tilePosition = this.tilePositionPoint;
     this.timer = 0;
     this.region = region;
+    this.regionObjects = regionObjects;
+    this.difficulty = 0;
 
     this.refresh();
 };
@@ -37,6 +39,29 @@ Region.prototype.update = function() {
     this.tilePositionPoint.y+=0.3;
 
     this.visible = new Phaser.Rectangle(this.game.camera.x, this.game.camera.y, this.game.camera.width, this.game.camera.height).intersects(new Phaser.Rectangle(this.x, this.y, this.width, this.height))
+
+    if (this.visible) {
+        var nw, n, ne, e, se, s, sw, w;
+
+
+        var xIsGreaterThanZero = this.region.x > 0;
+        var xIsLessThanMax = this.region.x < 19;
+        var yIsGreaterThanZero = this.region.y > 0;
+        var yIsLessThanMax = this.region.y < 19;
+
+        w = (xIsGreaterThanZero) ? this.regionObjects[this.region.y][this.region.x - 1].region.faction === this.region.faction : 0;
+        nw = (xIsGreaterThanZero && yIsGreaterThanZero) ? this.regionObjects[this.region.y - 1][this.region.x - 1].region.faction === this.region.faction : 0;
+        n = (yIsGreaterThanZero) ? this.regionObjects[this.region.y - 1][this.region.x].region.faction === this.region.faction : 0;
+        ne = (xIsLessThanMax && yIsGreaterThanZero) ? this.regionObjects[this.region.y - 1][this.region.x + 1].region.faction === this.region.faction : 0;
+        e = (xIsLessThanMax) ? this.regionObjects[this.region.y][this.region.x + 1].region.faction === this.region.faction : 0;
+        se = (xIsLessThanMax && yIsLessThanMax) ? this.regionObjects[this.region.y + 1][this.region.x + 1].region.faction === this.region.faction : 0;
+        s = (yIsLessThanMax) ? this.regionObjects[this.region.y + 1][this.region.x].region.faction === this.region.faction : 0;
+        sw = (xIsGreaterThanZero && yIsLessThanMax) ? this.regionObjects[this.region.y + 1][this.region.x - 1].region.faction === this.region.faction : 0;
+
+        this.difficulty = [nw, n, ne, e, se, s, sw, w].reduce(function (a, b) {
+            return a + b;
+        }, 0);
+    }
 };
 Region.prototype.refresh = function() {
     var factionColor = 0x000000;

@@ -51,9 +51,10 @@ PlayerShip = function(game, x, y, isInRegion, user) {
         rightKey: game.input.keyboard.addKey(Phaser.Keyboard.D),
         useKey: game.input.keyboard.addKey(Phaser.Keyboard.E)
     };
-    this.speed = 500;
+    if (isInRegion) this.speed = 750;
+    else this.speed = 500;
     this.turnSpeed = 0.4;
-    this.moveDirection = 0;
+    this.moveDirection = 270;
 };
 
 PlayerShip.prototype = Object.create(Phaser.Sprite.prototype);
@@ -70,16 +71,33 @@ PlayerShip.prototype.update = function() {
 
     this.hintText.alpha = 0;
 
-    if (this.regionOverlapping !== null) { //&& this.regionOverlapping.faction !== this.user.faction) {
+    if (this.regionOverlapping !== null) {
         this.hintText.x = this.x;
         this.hintText.y = this.y - 64;
         this.hintText.alpha = 1;
-        this.hintText.text = "[E] Enter " + this.regionOverlapping.faction + " region";
-        if (this.inputKeys.useKey.isDown) {
-            this.game.state.start("battle", true, false, {
-                region: this.regionOverlapping,
-                user: this.user
-            });
+
+        if (this.regionOverlapping.region.faction !== this.user.faction) {
+            this.hintText.text = "[E] Enter " + this.regionOverlapping.region.faction + " region\n Level " + this.regionOverlapping.difficulty.toString();
+
+            this.hintText.style.fill = "#00ff00";
+            if (this.regionOverlapping.difficulty >= 3) this.hintText.style.fill = "#ffff00";
+            if (this.regionOverlapping.difficulty >= 6) this.hintText.style.fill = "#ff4400";
+
+
+            if (this.inputKeys.useKey.isDown) {
+                lastPosition.x = this.x;
+                lastPosition.y = this.y;
+
+                localStorage.setItem('lastPosition', JSON.stringify(lastPosition));
+
+                this.game.state.start("battle", true, false, {
+                    region: this.regionOverlapping.region,
+                    user: this.user
+                });
+            }
+        } else {
+            this.hintText.style.fill = "#ffffff";
+            this.hintText.text = this.regionOverlapping.region.faction + "'s region\nLevel " + this.regionOverlapping.difficulty.toString();
         }
     }
 };
