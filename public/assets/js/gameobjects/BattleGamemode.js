@@ -24,14 +24,16 @@ BattleGamemode = function(game, region, player, enemyGroup) {
     this.player = player;
     this.enemyGroup = enemyGroup;
 
-    this.minutes = 5;
-    this.seconds = 0;
+    this.minutes = 1;
+    this.seconds = 15;
 
     this.timerSound = game.add.audio("time", 0.8, false);
 
-    this.enemyTimer = game.time.create();
-    this.enemyTimer.loop(1000 - ((this.region.difficulty + 1) * 100), this.spawnEnemy, this);
-    this.enemyTimer.start();
+    //this.enemyTimer = game.time.create();
+    //this.enemyTimer.loop(1000 - ((this.region.difficulty + 1) * 100), this.spawnEnemy, this);
+    //this.enemyTimer.start();
+
+    new BoltEnemy(this.game, 0, 0, this.player, this.enemyGroup, this.region);
 };
 
 BattleGamemode.prototype = Object.create(Phaser.Sprite.prototype);
@@ -62,5 +64,6 @@ BattleGamemode.prototype.timerTick = function () {
     if (this.seconds <= 0 && this.minutes <= 0) game.state.start("boot");
 };
 BattleGamemode.prototype.spawnEnemy = function () {
-    new BoltEnemy(this.game, 0, 0, this.player, this.enemyGroup);
+    var nb = new BoltEnemy(this.game, 0, 0, this.player, this.enemyGroup);
+
 };

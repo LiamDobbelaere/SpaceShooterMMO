@@ -6,7 +6,14 @@ PlayerShip = function(game, x, y, isInRegion, user) {
 
     this.user = user;
 
+    var newSize = {
+        width: 50,
+        height: 50,
+        offsetY: 10
+    };
+
     this.anchor = new Phaser.Point(0.5, 0.5);
+    this.body.setCircle(25, this.width * this.anchor.x - 25, this.height * this.anchor.y - 25);
 
     this.isInRegion = isInRegion;
 
@@ -25,7 +32,7 @@ PlayerShip = function(game, x, y, isInRegion, user) {
     this.weapon.bulletSpeed = 2000;
     this.weapon.fireRate = 125;
     this.weapon.bulletAngleVariance = 8;
-    this.weapon.fireRateVariance = 100;
+    //this.weapon.fireRateVariance = 100;
     this.weapon.onFire.add(this.onBulletFired, this);
     this.weapon.trackSprite(this, 0, 0, false);
 

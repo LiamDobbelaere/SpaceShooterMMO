@@ -11,6 +11,7 @@ var prebootState = {
         game.load.image("region", "assets/media/region.png");
         game.load.image("white", "assets/media/white.png");
         game.load.image("bolt", "assets/media/bolt.png");
+        game.load.image("asteroid", "assets/media/asteroid.png");
 
         game.load.audio("blaster", "assets/audio/sfx/blaster.wav");
         game.load.audio("time", "assets/audio/sfx/time.wav");

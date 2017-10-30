@@ -3,6 +3,7 @@ var battleState = {
     enemyGroup: null,
     user: null,
     background: null,
+    //deleteme: null,
     init: function(data) {
         this.region = data.region;
         this.user = data.user;
@@ -40,6 +41,8 @@ var battleState = {
 
         socket.emit("update-region-faction", this.region);
 
+        //this.deleteme = new BoltEnemy(game, 0, 0, this.player, this.enemyGroup);
+
         //var music = game.add.audio("reclaim", 1, true);
         //music.play();
     },
@@ -54,6 +57,10 @@ var battleState = {
         game.physics.arcade.overlap(this.player, this.enemyGroup, function(a, b) {
             a.gameOver();
         }, null, this);
+    },
+    render: function() {
+        //game.debug.body(this.player);
+        //game.debug.body(this.deleteme);
     },
     shutdown: function() {
         currentMusic.stop();
