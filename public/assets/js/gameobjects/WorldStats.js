@@ -22,6 +22,9 @@ WorldStats.prototype.update = function() {
     this.graph.angle = 180;
     this.graph.clear();
     this.graph.lineStyle(1, 0xffffff);
+    this.graph.beginFill(0x00ff00);
+    this.graph.drawRect(24, 0, 8, this.worldpercent["H3-RB"]);
+    this.graph.endFill();
     this.graph.beginFill(0x0000ff);
     this.graph.drawRect(16, 0, 8, this.worldpercent.TRRA);
     this.graph.endFill();

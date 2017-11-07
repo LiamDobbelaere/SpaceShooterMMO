@@ -9,7 +9,7 @@ const queries = {
     "UPDATE_REGION_FACTION": "UPDATE region SET faction = ? WHERE x = ? AND y = ?",
     "REGION_EXISTS": "SELECT * FROM region WHERE x = ? AND y = ?",
     "INSERT_REGION_FACTION": "INSERT INTO region (faction, x, y) VALUES (?, ?, ?)",
-    "GET_WORLDPERCENT": "SELECT BOLT, TRRA FROM worldpercent"
+    "GET_WORLDPERCENT": "SELECT BOLT, TRRA, `H3-RB` FROM worldpercent"
 };
 
 function query(query, args) {
@@ -64,10 +64,13 @@ function getWorldPercent() {
     return new Promise((resolve, reject) => {
         query(queries.GET_WORLDPERCENT, [])
             .then(resultSet => {
+                console.log(resultSet);
+
                 let worldpercent = {
                     BOLT: resultSet[0].BOLT,
                     TRRA: resultSet[0].TRRA,
-                    FREE: 100 - resultSet[0].BOLT - resultSet[0].TRRA
+                    "H3-RB": resultSet[0]["H3-RB"],
+                    FREE: 100 - resultSet[0].BOLT - resultSet[0].TRRA - resultSet[0]["H3-RB"]
                 };
 
                 resolve(worldpercent);

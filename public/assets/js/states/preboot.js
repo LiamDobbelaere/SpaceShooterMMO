@@ -2,8 +2,10 @@ var prebootState = {
     preload: function() {
         game.load.image("ship_trra", "assets/media/ship_trra.png");
         game.load.image("ship_bolt", "assets/media/ship_bolt.png");
+        game.load.image("ship_h3-rb", "assets/media/ship_h3-rb.png");
         game.load.image("space_trra", "assets/media/space_trra.png");
         game.load.image("space_bolt", "assets/media/space_bolt.png");
+        game.load.image("space_h3-rb", "assets/media/space_h3-rb.png");
         game.load.image("space_neut", "assets/media/space_neut.png");
         game.load.image("crosshair", "assets/media/crosshair.png");
         game.load.image("bullet", "assets/media/bullet.png");
@@ -19,6 +21,7 @@ var prebootState = {
         game.load.audio("level_trra", "assets/audio/music/level_trra.ogg");
         game.load.audio("level_neut", "assets/audio/music/level_neut.ogg");
         game.load.audio("level_bolt", "assets/audio/music/level_bolt.ogg");
+        game.load.audio("level_h3-rb", "assets/audio/music/level_bolt.ogg");
         game.load.audio("worldmap", "assets/audio/music/worldmap.ogg");
     },
     create: function () {

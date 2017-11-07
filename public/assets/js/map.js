@@ -32,6 +32,12 @@ $(document).ready(function() {
                                     setGridColor(td, "red");
                                 }, i * speed);
                             })($newTd);
+                        } else if (region.faction === "H3-RB") {
+                            (function(td) {
+                                setTimeout(function() {
+                                    setGridColor(td, "lime");
+                                }, i * speed);
+                            })($newTd);
                         }
                     }
                 });

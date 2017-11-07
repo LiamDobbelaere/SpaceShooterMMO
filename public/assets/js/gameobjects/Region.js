@@ -68,6 +68,7 @@ Region.prototype.refresh = function() {
 
     if (this.region.faction === "TRRA") factionColor = 0x0033ff;
     else if (this.region.faction === "BOLT") factionColor = 0xff0000;
+    else if (this.region.faction === "H3-RB") factionColor = 0x00ff00;
     else if (this.region.faction === "NEUT") factionColor = 0xffffff;
     this.background.tint = factionColor;
     this.tint = factionColor;

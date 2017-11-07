@@ -103,6 +103,8 @@ io.on("connect", (socket) => {
 
     db.getRegions().then((resultSetRegions) => {
         db.getWorldPercent().then((resultSetWorldPercent) => {
+            console.log(resultSetWorldPercent);
+
             socket.emit("receive-userinfo", {
                 regions: resultSetRegions,
                 user: socket.handshake.session.user,
