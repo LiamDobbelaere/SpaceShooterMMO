@@ -3,10 +3,16 @@ var prebootState = {
         game.load.image("ship_trra", "assets/media/ship_trra.png");
         game.load.image("ship_bolt", "assets/media/ship_bolt.png");
         game.load.image("ship_h3-rb", "assets/media/ship_h3-rb.png");
+
         game.load.image("space_trra", "assets/media/space_trra.png");
         game.load.image("space_bolt", "assets/media/space_bolt.png");
         game.load.image("space_h3-rb", "assets/media/space_h3-rb.png");
         game.load.image("space_neut", "assets/media/space_neut.png");
+
+        game.load.image("logo_trra", "assets/media/logo_trra.png");
+        game.load.image("logo_bolt", "assets/media/logo_bolt.png");
+        game.load.image("logo_h3-rb", "assets/media/logo_h3-rb.png");
+
         game.load.image("crosshair", "assets/media/crosshair.png");
         game.load.image("bullet", "assets/media/bullet.png");
         game.load.image("money", "assets/media/money.png");

@@ -13,6 +13,9 @@ HUD = function(game, user) {
     text.strokeThickness = 4;
     text.alpha = 1;
 
+    this.factionlogo = game.add.sprite(this.x, this.y, "logo_" + user.faction.toLowerCase());
+    game.add.existing(this.factionlogo);
+
     this.user = user;
     this.text = text;
     this.game = game;
@@ -26,6 +29,9 @@ HUD.prototype.update = function() {
 
     this.text.x = this.x + this.width - 8;
     this.text.y = this.y - 14;
+
+    this.factionlogo.x = this.game.camera.x + this.game.camera.width - this.factionlogo.width - 8;
+    this.factionlogo.y = this.game.camera.y + 8;
 
     //this.text.text = this.user.money;
 };
