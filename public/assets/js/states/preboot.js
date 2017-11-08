@@ -27,7 +27,7 @@ var prebootState = {
         game.load.audio("level_trra", "assets/audio/music/level_trra.ogg");
         game.load.audio("level_neut", "assets/audio/music/level_neut.ogg");
         game.load.audio("level_bolt", "assets/audio/music/level_bolt.ogg");
-        game.load.audio("level_h3-rb", "assets/audio/music/level_bolt.ogg");
+        game.load.audio("level_h3-rb", "assets/audio/music/level_h3-rb.ogg");
         game.load.audio("worldmap", "assets/audio/music/worldmap.ogg");
     },
     create: function () {
