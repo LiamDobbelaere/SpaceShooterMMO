@@ -39,8 +39,6 @@ var battleState = {
         new Crosshair(game);
         new BattleGamemode(game, this.region, this.player, this.enemyGroup);
 
-        socket.emit("update-region-faction", this.region);
-
         //this.deleteme = new BoltEnemy(game, 0, 0, this.player, this.enemyGroup);
 
         //var music = game.add.audio("reclaim", 1, true);
@@ -60,6 +58,11 @@ var battleState = {
     },
     render: function() {
         //game.debug.body(this.player);
+
+        /*kaput.forEach(function(enemy) {
+            game.debug.body(enemy);
+        });*/
+
         //game.debug.body(this.deleteme);
     },
     shutdown: function() {

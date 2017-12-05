@@ -33,12 +33,17 @@ BattleGamemode = function(game, region, player, enemyGroup) {
     //this.enemyTimer.loop(1000 - ((this.region.difficulty + 1) * 100), this.spawnEnemy, this);
     //this.enemyTimer.start();
 
-    new BoltEnemy(this.game, 0, 0, this.player, this.enemyGroup, this.region);
+    new BoltEnemy(this.game, 0, 0, this.player, this.enemyGroup, this.region, this);
 };
 
 BattleGamemode.prototype = Object.create(Phaser.Sprite.prototype);
 BattleGamemode.prototype.constructor = BattleGamemode;
 BattleGamemode.prototype.update = function() {
+    if (this.enemyGroup.getAll("alive", true).length === 0) {
+        socket.emit("update-region-faction", this.region);
+        game.state.start("boot");
+    }
+
     this.x = this.game.camera.x + this.game.camera.width / 2;
     this.y = this.game.camera.y + 16;
 
