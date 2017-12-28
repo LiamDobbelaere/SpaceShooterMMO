@@ -8,7 +8,6 @@ const connectionInfo = require("./connectionstring")(process.env.MYSQLCONNSTR_lo
 const db = require("./data.js")(connectionInfo);
 const pubdir = __dirname + "/public";
 const path = require("path");
-const bcrypt = require("bcryptjs");
 const MySQLStore = require("express-mysql-session")(session);
 const sessionStore = new MySQLStore({
     host: connectionInfo.ip,
